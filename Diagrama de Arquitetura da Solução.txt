@@ -1,0 +1,46 @@
+Diagrama de Arquitetura da Solução
+
+A arquitetura proposta segue o padrão hexagonal (Ports and Adapters), garantindo uma separação clara entre o núcleo da aplicação e suas interfaces externas.
+DEV Community
+
+Componentes Principais:
+
+API Gateway (AWS API Gateway): Exposição das rotas REST da API.
+
+Camada de Entrada (Adapters): Controladores REST que recebem as requisições HTTP.
+
+Core da Aplicação (Ports): Contém a lógica de negócio e interfaces que definem contratos para os adapters.
+
+Camada de Saída (Adapters): Implementações para persistência (banco de dados), envio de e-mails e comunicação com filas.
+
+Banco de Dados (AWS RDS): Armazenamento dos cadastros.
+
+Fila de Mensagens (AWS SQS): Gerenciamento do atraso de 2 minutos antes do envio do e-mail.
+
+Serviço de E-mail (AWS SES): Envio das notificações de cadastro pendente.
+
+Observabilidade:
+
+Logs: Coletados e centralizados (por exemplo, usando ELK Stack).
+
+Métricas: Expostas via Spring Boot Actuator e coletadas pelo Prometheus.
+
+Tracing: Implementado com OpenTelemetry e visualizado no Jaeger.
+
+
+Este diagrama representa a interação entre os componentes:
+
+
+[Usuário]
+   |
+   v
+[API Gateway]
+   |
+   v
+[Controladores REST] ---> [Core da Aplicação] <--- [Repositório de Dados]
+                                |
+                                v
+                      [Fila de Mensagens (SQS)]
+                                |
+                                v
+                      [Serviço de E-mail (SES)]

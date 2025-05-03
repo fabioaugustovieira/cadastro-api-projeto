@@ -1,0 +1,71 @@
+Manual de Implantação da Solução
+
+Este manual descreve os passos para implantar a aplicação utilizando AWS, Docker e Terraform.
+
+Pré-requisitos
+Conta na AWS com permissões adequadas.
+
+Instalação do Docker e Docker Compose.
+
+Instalação do Terraform.
+
+Instalação do AWS CLI configurado com suas credenciais.
+
+Passo 1: Clonar o Repositório
+
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd seu-repositorio
+
+Passo 2: Configurar Variáveis de Ambiente
+Crie um arquivo .env com as seguintes variáveis:
+
+
+AWS_ACCESS_KEY_ID=seu_access_key
+AWS_SECRET_ACCESS_KEY=seu_secret_key
+AWS_REGION=sa-east-1
+
+Passo 3: Construir a Imagem Docker
+
+docker build -t cadastro-api .
+
+Passo 4: Subir a Infraestrutura com Terraform
+
+cd infraestrutura
+terraform init
+terraform apply
+
+Este passo criará os seguintes recursos na AWS:
+
+API Gateway
+
+Cluster ECS ou EKS
+
+Banco de Dados RDS
+
+Fila SQS
+
+Serviço de E-mail SES
+
+Recursos de observabilidade (CloudWatch, Prometheus, etc.)
+
+
+Passo 5: Implantar a Aplicação
+Após a infraestrutura estar pronta, implante a aplicação no cluster:
+
+Para ECS:
+
+aws ecs update-service --cluster seu-cluster --service seu-servico --force-new-deployment
+Para EKS:
+
+
+kubectl apply -f deployment.yaml
+
+Passo 6: Acessar a Aplicação
+A aplicação estará acessível através do endpoint fornecido pelo API Gateway.
+
+Passo 7: Monitoramento e Logs
+Logs: Acesse o CloudWatch para visualizar os logs da aplicação.
+
+Métricas: Utilize o Prometheus e o Grafana para monitorar as métricas expostas pela aplicação.
+
+Tracing: Visualize os traces das requisições no Jaeger.
