@@ -1,0 +1,61 @@
+Projeto expandido
+
+Integração real com AWS (SES/SQS/RDS)
+
+Observabilidade com Prometheus, Grafana e Jaeger
+
+API Gateway e ACM para TLS
+
+✅1. Integração com AWS (SES, SQS, RDS)
+ 
+📨SES (envio de e-mails)
+Configuração no SES:
+
+Verificar o domínio no SES (usado no terraform)
+
+Confirme um e-mail de origem (ex: notificacoes@seudominio.com)
+
+Spring Boot:
+
+Usar o AmazonSimpleEmailService do SDK da AWS
+
+Configurar as credenciais via application.yml
+
+
+
+📬SQS (notificação com atraso de 2 min) 
+Publique na fila SQS no método criarCadastro.
+
+Um listener (worker assíncrono) consome mensagens com delay.
+
+
+🛢️RDS (PostgreSQL)
+No Terraform:
+
+Em application-prod.yml
+
+
+📊 2. Observabilidade com Prometheus, Grafana e Jaeger
+✅ Prometheus
+Adicione dependência no pom.xml:
+
+
+✅ Grafana
+Use Docker Compose com dashboard default importado via volume.
+
+✅ Jaeger (Tracing com OpenTelemetry)
+Dependências:
+
+
+Docker Compose com container Jaeger:
+
+
+🌐 3. API Gateway com TLS (via ACM)
+🛡️ TLS com ACM (Amazon Certificate Manager)
+No Terraform:
+
+
+🌍 API Gateway
+Exponha a API do Spring Boot por um API Gateway com proxy para EC2 ou Load Balancer.
+
+# configurar recursos, métodos, integration com o backend
